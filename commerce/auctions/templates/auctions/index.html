@@ -2,26 +2,47 @@
 
 {% block body %}
 {% if message%}
-  <div class="alert alert-success">
-    {{ message }}
-  </div>
-
+<div id="successMessage" style="background-color: #4CAF50; color: white; padding: 10px; margin-top: 10px;">
+      {{ message }}
+    </div>
 {% endif %}
-<div class="card">
-{% for item in items %}
-  <img src="https://curie.pnnl.gov/sites/default/files/default_images/default-image_0.jpeg"alt="Product Image" width=100 height=100>
-  <div class="card-content">
-    <div class="name-price">
-      <div class="name">{{item.name}}</div>
-      <div class="price">{{item.price}}</div>
-    </div>
-    <div class="description">
-      {{item.description}}
-    </div>
-    <div class="category">{{item.category}}</div>
+<section class="container mt-4">
+  <div class="row">
+    {% for item in items %}
+      <div class="col-md-3 mb-4">
+        <div class="card">
+          {% if item.image %}
+            <img src="{{ item.image }}" class="card-img-top" alt="{{ item.name }}" height=200>
+          {% endif %}
+          {% if not item.image %}
+            <img src="https://curie.pnnl.gov/sites/default/files/default_images/default-image_0.jpeg" class="card-img-top" alt="{{ item.name }}">
+          {% endif %}
+          <div class="card-body">
+            <h5 class="card-title">{{ item.name }}</h5>
+            <p class="card-text">{{ item.description }}</p>
+            <p class="card-text"><strong>Price:</strong> ${{ item.price }}</p>
+            {% if item.category %}
+            <p class="card-text"><strong>Category:</strong> {{ item.category }}</p>
+            {% endif %}
+            {% if not item.category %}
+            <p class="card-text"><strong>Category:</strong> Uncategorized</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% endfor %}
   </div>
-</div>
+  <script>
+document.addEventListener("DOMContentLoaded", function() {
+    var successMessage = document.getElementById("successMessage");
 
-
-{% endfor %}
+    if (successMessage) {
+      // Hide the success message after 3000 milliseconds (3 seconds)
+      setTimeout(function() {
+        successMessage.style.display = "none";
+      }, 3000);
+    }
+  });
+  </script>
+</section>
 {% endblock %}
