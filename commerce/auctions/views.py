@@ -1,14 +1,24 @@
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from .models import User
+from .models import User, Item
 
 
+@login_required
 def index(request):
-    return render(request, "auctions/index.html")
+    items = Item.objects.all()
+    return render(
+        request,
+        "auctions/index.html",
+        {
+            "items": items,
+        },
+    )
 
 
 def login_view(request):
@@ -66,6 +76,33 @@ def register(request):
         return render(request, "auctions/register.html")
 
 
+def new_listing(request):
+    return render(request, "auctions/new_listing.html")
+
+
+def save_listing(request):
+    if request.method == "POST":
+        item_name = request.POST["item_name"]
+        item_price = request.POST["item_price"]
+        item_description = request.POST["item_description"]
+        item_image = request.POST["item_image"]
+        item_category = request.POST["item_category"]
+
+        item = Item(
+            name=item_name,
+            price=item_price,
+            description=item_description,
+            image=item_image,
+            category=item_category,
+        )
+        item.save()
+        items = Item.objects.all()
+        return HttpResponseRedirect(reverse("index"))
+
+
+# listing page
+# need model with
+# product, date created, number of people
 # would need a form that will post category, image, description, and price also title and time and date created
 # Every user should see this and be able to make a bid on the item
 # bid
