@@ -1,38 +1,50 @@
 {% extends "auctions/layout.html" %}
-
 {% block body %}
-{% if message%}
-<div id="successMessage" style="background-color: #4CAF50; color: white; padding: 10px; margin-top: 10px;">
-      {{ message }}
-    </div>
-{% endif %}
-<section class="container mt-4">
-  <div class="row">
-    {% for item in items %}
-      <div class="col-md-3 mb-4">
-        <div class="card">
-          {% if item.image %}
-            <img src="{{ item.image }}" class="card-img-top" alt="{{ item.name }}" height=200>
-          {% endif %}
-          {% if not item.image %}
-            <img src="https://curie.pnnl.gov/sites/default/files/default_images/default-image_0.jpeg" class="card-img-top" alt="{{ item.name }}">
-          {% endif %}
-          <div class="card-body">
-            <h5 class="card-title">{{ item.name }}</h5>
-            <p class="card-text">{{ item.description }}</p>
-            <p class="card-text"><strong>Price:</strong> ${{ item.price }}</p>
-            {% if item.category %}
-            <p class="card-text"><strong>Category:</strong> {{ item.category }}</p>
-            {% endif %}
-            {% if not item.category %}
-            <p class="card-text"><strong>Category:</strong> Uncategorized</p>
-            {% endif %}
-          </div>
+    {% if message %}
+        <div id="successMessage"
+             style="background-color: #4CAF50;
+                    color: white;
+                    padding: 10px;
+                    margin-top: 10px">{{ message }}</div>
+    {% endif %}
+    <section class="container mt-4">
+        <div class="row">
+            {% for item in items %}
+                <div class="col-md-3 mb-4">
+                    <div class="card">
+                        {% if item.image %}
+                            <img src="{{ item.image }}"
+                                 class="card-img-top"
+                                 alt="{{ item.name }}"
+                                 height="200">
+                        {% endif %}
+                        {% if not item.image %}
+                            <img src="https://curie.pnnl.gov/sites/default/files/default_images/default-image_0.jpeg"
+                                 class="card-img-top"
+                                 alt="{{ item.name }}">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ item.name }}</h5>
+                            <p class="card-text">{{ item.description }}</p>
+                            <p class="card-text">
+                                <strong>Price:</strong> ${{ item.price }}
+                            </p>
+                            {% if item.category %}
+                                <p class="card-text">
+                                    <strong>Category:</strong> {{ item.category }}
+                                </p>
+                            {% endif %}
+                            {% if not item.category %}
+                                <p class="card-text">
+                                    <strong>Category:</strong> Uncategorized
+                                </p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
-      </div>
-    {% endfor %}
-  </div>
-  <script>
+        <script>
 document.addEventListener("DOMContentLoaded", function() {
     var successMessage = document.getElementById("successMessage");
 
@@ -43,6 +55,6 @@ document.addEventListener("DOMContentLoaded", function() {
       }, 3000);
     }
   });
-  </script>
-</section>
+        </script>
+    </section>
 {% endblock %}

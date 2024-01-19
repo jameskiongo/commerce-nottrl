@@ -14,7 +14,7 @@ class Item(models.Model):
         max_length=255,
         default="https://curie.pnnl.gov/sites/default/files/default_images/default-image_0.jpeg",
     )
-    category = models.CharField(max_length=100, default="uncategorized")
+    category = models.ForeignKey()
 
     def __str__(self):
         return self.name
