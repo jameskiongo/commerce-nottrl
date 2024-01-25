@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -8,32 +9,33 @@
               href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
               integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
               crossorigin="anonymous">
-        <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+        <link href="{% static 'auctions/styles.css' %}" rel="stylesheet">
     </head>
     <body>
-        <!-- <div class ="relative items-center gap-x-6 overflow-hidden bg-gray-50"> -->
-        <!-- {% if user.is_authenticated %} -->
-        <!-- Signed in as <strong>{{ user.username }}</strong>. -->
-        <!-- {% else %} -->
-        <!-- Not signed in. -->
-        <!-- {% endif %} -->
-        <!-- </div> -->
-        <ul class="nav" class="bg-black">
+        <h1>Auctions</h1>
+        <div>
+            {% if user.is_authenticated %}
+                Signed in as <strong>{{ user.username }}</strong>.
+            {% else %}
+                Not signed in.
+            {% endif %}
+        </div>
+        <ul class="nav">
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'index' %}">Active Listings</a>
             </li>
             {% if user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'new_listing' %}">Create New Listing</a>
+                    <a class="nav-link" href="{% url 'create' %}">Create Listings</a>
                 </li>
                 <li class="nav-item">
-                    <a class = "nav-link" href="#">Active Listings</a>
+                    <a class="nav-link" href="{% url 'mylistings' %}">My Listings</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'watchlist' %}">Watch List</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link">{{ user.username }}</a>
                 </li>
             {% else %}
                 <li class="nav-item">
@@ -44,6 +46,7 @@
                 </li>
             {% endif %}
         </ul>
+        <hr>
         {% block body %}{% endblock %}
     </body>
 </html>
