@@ -1,12 +1,12 @@
 import csv
 import datetime
-import urllib
-import uuid
-from functools import wraps
-
 import pytz
 import requests
+import urllib
+import uuid
+
 from flask import redirect, render_template, request, session
+from functools import wraps
 
 
 def apology(message, code=400):

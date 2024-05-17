@@ -2,9 +2,9 @@ import os
 
 from cs50 import SQL
 from flask import Flask, flash, redirect, render_template, request, session
+from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from flask_session import Session
 from helpers import apology, login_required, lookup, usd
 
 # Configure application
@@ -42,11 +42,7 @@ def index():
 @login_required
 def buy():
     """Buy shares of stock"""
-    if request.method == "POST":
-        symbol = request.form.get("symbol")
-        shares = request.form.get("shares")
-    else:
-        return render_template("buy.html")
+    return apology("TODO")
 
 
 @app.route("/history")
@@ -110,54 +106,13 @@ def logout():
 @login_required
 def quote():
     """Get stock quote."""
-    if request.method == "POST":
-        symbol = request.form.get("symbol")
-        if not symbol:
-            return render_template("quote.html", message="Empty Fields")
-        symbol = lookup(symbol)
-        try:
-            return render_template(
-                "quoted.html",
-                stock_symbol=symbol["symbol"],
-                stock_price=symbol["price"],
-            )
-        except TypeError:
-            return render_template("quote.html", message="No Stock Found")
-
-    else:
-        return render_template("quote.html")
+    return apology("TODO")
 
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
     """Register user"""
-    session.clear()
-    if request.method == "POST":
-        username = request.form.get("username")
-        password = request.form.get("password")
-        confirm = request.form.get("confirm")
-        row_names = db.execute("SELECT * FROM users WHERE username=?", (username))
-        if not username or not password or not confirm:
-            return render_template("register.html", message="Empty Name")
-        elif len(row_names) != 0:
-            return render_template("register.html", message="Username Is Taken")
-        elif len(password) < 6:
-            return render_template(
-                "register.html", message="Password too short (Min 6 characters)"
-            )
-        elif password != confirm:
-            return render_template("register.html", message="Passwords do not match")
-        else:
-            hash = generate_password_hash(password)
-            new_user = db.execute(
-                "INSERT INTO users (username, hash) VALUES (?, ?)", username, hash
-            )
-            session["user_id"] = new_user
-            return redirect("/")
-
-    else:
-        return render_template("register.html")
-    # return apology("TODO")
+    return apology("TODO")
 
 
 @app.route("/sell", methods=["GET", "POST"])
